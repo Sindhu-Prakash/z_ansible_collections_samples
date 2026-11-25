@@ -102,7 +102,6 @@
           - DELETE '{{ zosmf_user }}.IBM.HADRH00.F10'
           - DELETE '{{ zosmf_user }}.IBM.HADRH00.F11'
           - DELETE '{{ zosmf_user }}.IBM.HADRH00.SMPMCS'
-          - DELETE '{{ zosmf_user }}.{{ ptf_file }}'
           - DELETE '{{ eqa_hlq }}.AEQAEXEC'
           - DELETE '{{ eqa_hlq }}.AEQAMENP'
           - DELETE '{{ eqa_hlq }}.AEQAMENU'
@@ -129,4 +128,14 @@
           - DELETE '{{ eqa_hlq }}.SEQATLIB'
           - DELETE '{{ eqa_hlq }}.ZFS'
         max_rc: 8
+
+
+    # Delete the uploaded PTF datasets (one per entry in ptf_files)
+    - name: Remove PTF datasets {{ item }}
+      loop: "{{ ptf_files }}"
+      zos_tso_command:
+        commands:
+          - DELETE '{{ zosmf_user }}.{{ item | upper }}'
+        max_rc: 8
+
 
