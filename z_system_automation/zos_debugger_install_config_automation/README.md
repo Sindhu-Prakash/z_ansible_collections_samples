@@ -66,13 +66,15 @@ Software requirements will have additional dependencies such as Python, for the 
 
    1. **Download the required files:**
       - `HADRXXX.pax.Z` - Base product RELFILES
-      - `IBM.HADRXXX.PTF####` - Latest PTF package (or newer version)
+      - `IBM.HADRXXX.PTF####` - One or more PTF packages (latest PTF or newer version)
 
    2. **Place the files** in the `files/` directory of this repository
 
-   3. **Update `variables.yml`** with the correct file names:
+   3. **Update `variables.yml`** with the correct file names. List every PTF you want to install under `ptf_files` (one entry for a single PTF, several for multiple):
       ```yaml
-      ptf_file: IBM.HADRXXX.PTF####    # Update if using different PTF
+       ptf_files:                       # One or more PTF files in files/
+        - IBM.HADRXXX.PTF####
+        # - IBM.HADRXXX.PTF####        # Add more entries as needed
       SMP_file: HADRXXX.pax.Z          # Update if filename differs
       ```
 
@@ -111,7 +113,8 @@ Software requirements will have additional dependencies such as Python, for the 
    Update the following configuration files according to your environment:
 
    - **`variables.yml`** — Configure installation paths, file names, ports, and product settings
-     - ⚠️ **CRITICAL:** Ensure `ptf_file` and `SMP_file` match your downloaded file names
+       - ⚠️ **CRITICAL:** Ensure every entry in `ptf_files` and `SMP_file` match your downloaded file names
+       - ⚠️ **Upgrading from v0.1.0:** replace the old `ptf_file` variable with the `ptf_files` list
    
    - `./inventories/group_vars/all.yml` — Update global variables that are applicable to all hosts
 
@@ -192,9 +195,10 @@ If you prefer more control or need to execute specific tasks only, you can run i
      ```bash
      ansible-playbook PTFInstall.yml -i inventories/inventory.yml -vvv
      ```
-     This will install the `files/IBM.HADRXXX.PTF####` PTF to your environment.
+      This will install the PTF file(s) listed in `ptf_files` (for example `files/IBM.HADRXXX.PTF####`) to your environment. Any PTF data sets left on z/OS   from a previous run are replaced.
+
      
-     ⚠️ **Prerequisite:** Ensure the PTF file exists in the `files/` directory and `variables.yml` has the correct filename
+      ⚠️ **Prerequisite:** Ensure every PTF file exists in the `files/` directory and that `ptf_files` in `variables.yml` has the correct filenames
 
 #### **Debugger Configuration (Step 4):**
 
