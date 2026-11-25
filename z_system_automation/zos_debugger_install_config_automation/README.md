@@ -7,10 +7,21 @@ This would state the Playbook versions and the highlighted version number is the
 
 | Version Number | Description |
 | -------------- | ----------- |
-| **v0.1.0**     | Initial public release with core Installation features|
+| v0.1.0         | Initial public release with core Installation features|
+| **v0.1.1**     | Patch release: PTF installation now supports one or more PTF files|
 
 ## Change Log
-'Initial Version'
+
+### v0.1.1
+- **PTF Install:** `PTFInstall.yml` now copies one or more PTF files in a single run. List them under `ptf_files` in `variables.yml`.
+  - **Breaking change:** the single `ptf_file` variable is replaced by the `ptf_files` list. Update any existing `variables.yml` before running.
+  - `JCLS/RECEIVE.jcl` concatenates all PTFs listed in `ptf_files` on `SMPPTFIN`, so one SMP/E RECEIVE job processes them all.
+  - PTF data set names on z/OS are converted to upper case, so a mixed-case file name in `files/` no longer causes a JCL error.
+  - Existing PTF data sets from a previous run are overwritten (`force: true`) instead of failing.
+- **Cleanup:** `Cleanup.yml` deletes the PTF data set for every entry in `ptf_files`.
+
+### v0.1.0
+- Initial version
 
 ## 📚 Documentation
 
