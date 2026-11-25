@@ -12,11 +12,13 @@
 
   tasks:
 
-    # Copy PTF file from local to z/OS dataset
-    - name: Copy PTF 
+   # Copy PTF file(s) from local to z/OS dataset(s)
+   # The list of files comes from ptf_files in variables.yml (1 or more entries)
+    - name: Copy PTF {{ item }}
+      loop: "{{ ptf_files }}"
       zos_copy:
-        src: files/{{ ptf_file }}
-        dest: "{{ zosmf_user }}.{{ ptf_file }}"
+        src: files/{{ item }}
+        dest: "{{ zosmf_user }}.{{ item | upper }}"
         dest_data_set:
           type: basic
           space_primary: 200
@@ -27,6 +29,7 @@
           space_type: cyl
         remote_src: false
         is_binary: true
+        force: true
 
 #######################################################
     
