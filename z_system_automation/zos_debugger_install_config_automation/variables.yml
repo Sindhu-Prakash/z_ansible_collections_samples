@@ -14,7 +14,9 @@ eqa_path_prefix: "/u/ibmuser/"       # Base path for debugger files (must end wi
 
 # --- PTF Installation Variables ---
 remote_path_relfiles: "/u/ibmuser/SMP/relfiles"  # Temporary RELFILES path
-ptf_file: IBM.HADRXXX.PTF####                     # PTF filename
+ptf_files:                      # PTF filenames in files/ (one or more)
+  - IBM.HADRXXX.PTF####
+  - IBM.HADRXXX.PTF####
 SMP_file: HADRXXX.pax.Z
 # variables used in Configuration.yml
 
