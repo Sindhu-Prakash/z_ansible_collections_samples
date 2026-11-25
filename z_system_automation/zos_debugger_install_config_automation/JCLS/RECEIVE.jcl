@@ -4,8 +4,11 @@
 //SMPCSI   DD DISP=SHR,
 //            DSN={{ smphlq }}.CSI
 //SMPHOLD  DD DUMMY                                                 
-//SMPPTFIN DD DISP=SHR,DSN={{ zosmf_user }}.{{ ptf_file }}
-//*                                                                
+//SMPPTFIN DD DISP=SHR,DSN={{ zosmf_user }}.{{ ptf_files[0] | upper }}
+{% for f in ptf_files[1:] %}
+//         DD DISP=SHR,DSN={{ zosmf_user }}.{{ f | upper }}
+{% endfor %}
+//*                                                                           
 //SMPCNTL  DD *                                                     
     SET BDY(GLOBAL).
     RECEIVE                                                            
