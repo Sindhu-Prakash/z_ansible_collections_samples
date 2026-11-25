@@ -9,9 +9,12 @@
 - Sindhu Prakash
 - Pavithra Velusamy
 
-**Document Version:** 1.0  
-**Last Updated:** 2026-06-11  
-**Automation Version:** Compatible with z/OS Debugger VHR0M0
+**Document Version:** 1.1  
+**Last Updated:** 2026-11-24  
+**Automation Version:** v0.1.1 (patch release), compatible with z/OS Debugger VHR0M0
+
+**Change in v0.1.1:** PTF installation now supports one or more PTF files. The single `ptf_file` variable in `variables.yml` is replaced by the `ptf_files` list. If you are upgrading from v0.1.0, update your `variables.yml` accordingly.
+
 
 © Copyright IBM Corporation
 
@@ -72,10 +75,10 @@ You need to download and place the following files in this directory:
 - **Description:** IBM z/OS Debugger base product installation package (RELFILES)
 - **Required for:** SMP/E installation (Step 2)
 
-#### 2. Latest PTF Package
+#### 2. Latest PTF Package(s)
 
-- **Filename:** `IBM.HADRXXX.PTF####` (or latest available PTF)
-- **Description:** Program Temporary Fix (PTF) package for the debugger
+- **Filename:** `IBM.HADRXXX.PTF####` (or latest available PTF). You can provide one or more PTF files.
+- **Description:** Program Temporary Fix (PTF) package(s) for the debugger
 - **Required for:** PTF installation (Step 3)
 
 #### Download Instructions
@@ -88,7 +91,7 @@ Obtain the files from one of the following sources:
 
 **Steps:**
 
-1. Download both files to your local machine
+1. Download the files (the base product and each PTF) to your local machine
 2. Place the files in this `files/` directory:
 
 ```
@@ -96,7 +99,8 @@ Debug-Config-Automation/
 └── files/
     ├── README.md 
     ├── HADRXXX.pax.Z
-    └── IBM.HADRXXX.PTF####
+    ├── IBM.HADRXXX.PTF####
+    └── IBM.HADRXXX.PTF####   (additional PTFs, if any)
 ```
 
 3. Verify the files are in place:
@@ -105,7 +109,7 @@ Debug-Config-Automation/
 ls -lh files/
 ```
 
-You should see both files listed with their respective sizes.
+You should see all the files listed with their respective sizes.
 
 #### Update Configuration
 
@@ -115,11 +119,13 @@ After placing the files in this directory, you **MUST** update the `variables.ym
 
 ```yaml
 # --- PTF Installation Variables ---
-ptf_file: IBM.HADRXXX.PTF####   # Update this if your PTF filename is different
+ptf_files:                       # One or more PTF files placed in files/
+  - IBM.HADRXXX.PTF####          # Update this if your PTF filename is different
+  # - IBM.HADRXXX.PTF####        # Add one entry per additional PTF
 SMP_file: HADRXXX.pax.Z          # Update this if your RELFILES filename is different
 ```
 
-**Important:** If you download a newer PTF version, update the `ptf_file` variable to match the exact filename.
+**Important:** If you download a newer PTF version, update the `ptf_files` list to match the exact filenames. The old single `ptf_file` variable (v0.1.0) is no longer used. Use one list entry for a single PTF, or several entries to install multiple PTFs in the same run.
 
 #### File Naming Convention
 
@@ -806,7 +812,7 @@ cp IBM.HADRXXX.PTF#### files/
 
 # 2. Update variables.yml with new PTF name
 vi variables.yml
-# Change: ptf_file: IBM.HADRXXX.PTF####
+# Change: ptf_files list (one entry per PTF)
 
 # 3. Stop debug servers
 ssh user@zos
@@ -1589,6 +1595,7 @@ Debug-Config-Automation-Bob-IMS-Config/
 │   ├── HADRXXX.pax.Z               # Base product
 │   ├── HADRH00.readme.txt          # Release notes
 │   └── IBM.HADRXXX.PTF####        # PTF file
+│   └── IBM.HADRXXX.PTF####        # PTF file(s)
 ├── inventories/                     # Inventory configuration
 │   ├── inventory.yml               # Host inventory
 │   ├── group_vars/
