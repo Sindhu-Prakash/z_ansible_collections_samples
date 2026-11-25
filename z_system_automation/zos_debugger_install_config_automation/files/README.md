@@ -15,9 +15,9 @@ You need to download and place the following files in this directory:
 - **Description:** IBM z/OS Debugger base product installation package (RELFILES)
 - **Required for:** SMP/E installation (Step 2)
 
-### 2. Latest PTF Package
-- **Filename:** `IBM.HADRXXX.PTF####` (or latest available PTF)
-- **Description:** Program Temporary Fix (PTF) package for the debugger
+### 2. Latest PTF Package(s)
+- **Filename:** `IBM.HADRXXX.PTF####` (or latest available PTF). You can provide one or more PTF files.
+- **Description:** Program Temporary Fix (PTF) package(s) for the debugger
 - **Required for:** PTF installation (Step 3)
 
 ## Download Instructions
@@ -106,4 +106,4 @@ For questions about:
 
 ---
 
-**Last Updated:** June 2026
+**Last Updated:** November 2026
